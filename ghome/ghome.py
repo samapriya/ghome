@@ -112,7 +112,7 @@ def bstat(ip):
   try:
     response = requests.request("GET", url).json()
     for key, value in response.items():
-        print key, value
+        print(key, value)
   except Exception as e:
     print(e)
 
