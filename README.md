@@ -1,3 +1,8 @@
+[![PyPI version](https://badge.fury.io/py/ghome.svg)](https://badge.fury.io/py/ghome)
+[![Downloads](https://pepy.tech/badge/ghome/month)](https://pepy.tech/project/ghome)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
 # ghome: Simple CLI for Google Home & Mini
 This is an application of the google home API Blueprint reported [here](https://github.com/rithvikvibhu/GHLocalApi). While a lot of the end points maybe of interest to quite a few people, I used the ones I use most and I thought would be most useful and created a command line tool for you to search for a Google home mini device and then use this tool to interact with it and perform actions as needed. A large thanks goes to both [rithvikvibhu](https://github.com/rithvikvibhu) for the blueprint and finally to [leikoilja](https://github.com/leikoilja) for excellent work on implementing [glocaltokens](https://github.com/leikoilja/glocaltokens).
 
