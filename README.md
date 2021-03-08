@@ -25,7 +25,10 @@ This is an application of the google home API Blueprint reported [here](https://
     * [saved_network](#saved_network)
 
 ## Installation
-This assumes that you have native python & pip installed in your system, you can test this by going to the terminal (or windows command prompt) and trying
+This assumes that you have native python & pip installed in your system, you can test this by going to the terminal (or windows command prompt) and trying. On a windows machine , install pycryptodomex first by using the [instructions here](https://pycryptodome.readthedocs.io/en/latest/src/installation.html#windows-from-sources-python-3-5-and-newer)
+
+This also includes following importantly
+**Download [Build Tools for Visual Studio 2019](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019). In the installer, select the C++ build tools, the Windows 10 SDK, and the latest version of MSVC v142 x64/x86 build tools.**
 
 ```python``` and then ```pip list```
 
@@ -348,6 +351,10 @@ or
 
 
 ## Changelog
+
+### v0.0.3
+- Install instruction for pycryptodomex added
+- glocaltokens fixed to 0.2.3 to avoid charmap issues.
 
 ### v0.0.2
 - Added major revisions to the code to use autheticated device tokens

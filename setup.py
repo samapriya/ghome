@@ -18,10 +18,10 @@ def readme():
         return f.read()
 setuptools.setup(
     name='ghome',
-    version='0.0.2',
+    version='0.0.3',
     packages=['ghome'],
     url='https://github.com/samapriya/ghome',
-    install_requires=['requests>=2.20.1','python_nmap>=0.6.1','glocaltokens>=0.2.1','retrying>=1.3.3'],
+    install_requires=['requests>=2.20.1','python_nmap>=0.6.1','glocaltokens==0.2.3','retrying>=1.3.3'],
     license='Apache 2.0',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
