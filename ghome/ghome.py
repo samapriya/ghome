@@ -217,6 +217,18 @@ def device_list_from_parser(args):
     device_list(ipadd=args.ip)
 
 
+def device_list_clean():
+    if os.path.exists(os.path.join(expanduser("~"), "devices.json")):
+        os.remove(os.path.join(expanduser("~"), "devices.json"))
+        print(f"{os.path.join(expanduser('~'), 'devices.json')} has been removed")
+    else:
+        print(f"All clean, no file {os.path.join(expanduser('~'), 'devices.json')} exist")
+
+
+def device_list_clean_from_parser(args):
+    device_list_clean()
+
+
 ############################################# Device settings Tools ########################################
 @retry(stop_max_attempt_number=2)
 def reboot(ipadd, name, action):
@@ -803,6 +815,11 @@ def main(args=None):
     optional_named = parser_device_list.add_argument_group("Optional named arguments")
     optional_named.add_argument("--ip", help="Local IP address if automatically is not detected", default=None)
     parser_device_list.set_defaults(func=device_list_from_parser)
+
+    parser_device_list_clean = subparsers.add_parser(
+        "device_list_clean", help="Clean saved list of devices"
+    )
+    parser_device_list_clean.set_defaults(func=device_list_clean_from_parser)
 
     parser_devinfo = subparsers.add_parser(
         "devinfo", help="Provides Device Info based on device name or IP address"
