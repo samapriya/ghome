@@ -67,15 +67,18 @@ def auth_from_parser(args):
     master_auth()
 
 
-def device_json():
+def device_json(ipadd):
     client = GLocalAuthenticationTokens(master_token=master_auth())
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-    # Using sockets to get iprange
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    iprange = ".".join(s.getsockname()[0].split(".")[0:3])
-    s.close()
-
+    if ipadd is not None:
+        iprange = ".".join(ipadd.split(".")[0:3])
+    else:
+        # Using sockets to get iprange
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        iprange = ".".join(s.getsockname()[0].split(".")[0:3])
+        s.close()
+    
     # Using nmap to get device list
     nm = nmap.PortScanner()
     scanner = nm.scan(iprange + ".*", arguments="-sn")
@@ -196,14 +199,14 @@ def devinfo_from_parser(args):
     device_info(ipadd=args.ip, name=args.name)
 
 
-def device_list():
+def device_list(ipadd):
     devlist = []
     if os.path.exists(os.path.join(expanduser("~"), "devices.json")):
         with open(os.path.join(expanduser("~"), "devices.json")) as f:
             combined_devices = json.load(f)
     elif not os.path.exists(os.path.join(expanduser("~"), "devices.json")):
         print("Device list not found now generating")
-        combined_devices = device_json()
+        combined_devices = device_json(ipadd)
     for devices in combined_devices:
         item = {"name": devices["device_name"], "ip": devices["ip"]}
         devlist.append(item)
@@ -211,7 +214,19 @@ def device_list():
 
 
 def device_list_from_parser(args):
-    device_list()
+    device_list(ipadd=args.ip)
+
+
+def device_list_clean():
+    if os.path.exists(os.path.join(expanduser("~"), "devices.json")):
+        os.remove(os.path.join(expanduser("~"), "devices.json"))
+        print(f"{os.path.join(expanduser('~'), 'devices.json')} has been removed")
+    else:
+        print(f"All clean, no file {os.path.join(expanduser('~'), 'devices.json')} exist")
+
+
+def device_list_clean_from_parser(args):
+    device_list_clean()
 
 
 ############################################# Device settings Tools ########################################
@@ -797,7 +812,14 @@ def main(args=None):
     parser_device_list = subparsers.add_parser(
         "device_list", help="Print device list for Google Home devices"
     )
+    optional_named = parser_device_list.add_argument_group("Optional named arguments")
+    optional_named.add_argument("--ip", help="Local IP address if automatically is not detected", default=None)
     parser_device_list.set_defaults(func=device_list_from_parser)
+
+    parser_device_list_clean = subparsers.add_parser(
+        "device_list_clean", help="Clean saved list of devices"
+    )
+    parser_device_list_clean.set_defaults(func=device_list_clean_from_parser)
 
     parser_devinfo = subparsers.add_parser(
         "devinfo", help="Provides Device Info based on device name or IP address"
